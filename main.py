@@ -13,6 +13,62 @@ if 'clicked' not in st.session_state:
 def onclick():
     st.session_state.clicked = True
 
+def computeanddisplay():
+    article.download()
+    article.parse()
+    article.nlp()
+    st.header(article.title)
+    st.divider()
+    st.header("Summary:")
+    st.write(article.summary)
+
+    st.divider()
+    st.header("sentiment:")
+    analysis = TextBlob(article.text)
+    if analysis.polarity>0:
+        st.write("Sentiment of the article is positive")
+    else:
+        st.write("Sentiment of the article is negative")  
+
+
+
+    
+st.set_page_config(page_title="Article-Summarizer", page_icon="📝")
+
+st.markdown("""
+    <style type="text/css">
+    [data-testid=stSidebar] {
+        background-color: rgb(70, 100, 200);
+        color: #FFFFFF;
+    }
+    
+    </style>
+""", unsafe_allow_html=True)
+
+st.sidebar.markdown("## Instructions to use the page")
+
+st.sidebar.markdown("""
+    * Copy paste the link of the Article
+    * Press the button summarize 
+    * Wait for the results 
+    * Checkout  the title, summary and sentiment analysis of the article
+    """)
+
+with st.sidebar.expander("Tech used"):
+    st.markdown("""
+ * Streamlit 
+ * NLTK - NLP
+ * Textblob
+ * Newspaper3k""")    
+
+with st.sidebar.expander("Credits"):
+    st.markdown("""
+ * Adithya R 
+ * Karan P
+ * Aditya Verma
+ * Deepa G""")
+
+
 st.title("Article Summarizer")
 url = st.text_input('Enter the article link here')
 article = Article(url)
@@ -29,15 +85,9 @@ if st.session_state.clicked:
         time.sleep(0.01)
         progressbar.progress(perc+1)
 
-    # st.divider()    
-    # st.header('Summary of the article is :')
-    article.download()
-    article.parse()
-    article.nlp()
-    st.title(article.title)
+    st.title("Title:")
     st.divider()
-    
-    st.caption(article.summary)
+    computeanddisplay()
 
 
 
