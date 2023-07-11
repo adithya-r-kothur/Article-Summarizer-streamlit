@@ -5,7 +5,7 @@ from textblob import TextBlob
 from newspaper import Article
 import time 
 
-
+nltk.download('punkt')
 
 if 'clicked' not in st.session_state:
     st.session_state.clicked = False
